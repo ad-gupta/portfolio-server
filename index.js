@@ -1,4 +1,5 @@
 import express from 'express'
+// import mongoose from 'mongoose'
 import contactRoute from './Routes/contactRoute.js'
 import dotenv from "dotenv";
 import cors from 'cors'
@@ -20,11 +21,26 @@ export const transporter = nodemailer.createTransport({
     pass: process.env.PASSWORD,
   },
 });
+// const connectDB = () => {
+//   mongoose.connect(process.env.MONGO_URI, {dbName: "portfolio"}).then(()=> {
+//       console.log("Connected to DB")
+//   }).catch((err) => {console.log(err)})
+// }
 app.use(cors())
+app.use(express.json())
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use('/form', contactRoute);
-app.listen(port, () => {
-  console.log(`server is running on port ${port}`)
+
+app.get('/', (req, resp) => {
+  resp.send("Hello")
 })
 
+// app.get('/send', SendMail);
+
+app.listen(port, () => {
+  // connectDB();
+  console.log(`server is running on port ${port}`)
+})
 
